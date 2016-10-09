@@ -1,5 +1,36 @@
-extends layout
+<html lang = "en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-block content
-  h1= title
-  p Welcome to #{title}
+    <title>T n P</title>
+    <link rel="stylesheet" href="angular-material/angular-material.min.css"/>
+
+    <link rel="stylesheet" href="stylesheets/style.css"/>
+
+  </head>
+  <body ng-app="infinitescroll" ng-cloak>
+
+    <div ng-controller="AppCtrl" ng-cloak>
+      <md-content>
+        <md-button class="md-raised md-primary">{{mybutton}}</md-button>
+      </md-content>
+    </div>
+
+    <script src="jquery/dist/jquery.min.js"></script>
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="angular/angular.min.js"></script>
+    <script src="angular-animate/angular-animate.min.js"></script>
+    <script src="angular-aria/angular-aria.min.js"></script>
+    <script src="angular-messages/angular-messages.min.js"></script>
+
+    <!-- Angular Material Library -->
+    <script src="angular-material/angular-material.min.js"></script>
+
+    <!-- Your application bootstrap  -->
+    <script src="javascripts/index.js"></script>
+
+</body>
+</html>
