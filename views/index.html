@@ -28,6 +28,8 @@
         <md-list>
           <md-virtual-repeat-container style="height:100%;">
           <md-list-item class="md-3-line" flex md-virtual-repeat="item in ctrl.infiniteItems" md-on-demand>
+            <img ng-src="{{item.image}}" alt="{{item.name}}" class="md-avatar">
+
             <div class="md-list-item-text">
               <h3>{{item.name}}</h3>
               <h4>{{item.department}}</h4>
