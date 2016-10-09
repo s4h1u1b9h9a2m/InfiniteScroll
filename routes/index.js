@@ -15,7 +15,8 @@ router.get('/products', function(req, res, next) {
   for(i = 0; i < 10; ++i){
     data.push({
       "name": faker.commerce.productName(),
-      "price": faker.commerce.price()
+      "price": faker.commerce.price(),
+      "department": faker.commerce.department()
     });
   }
 

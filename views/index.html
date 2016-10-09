@@ -13,7 +13,7 @@
   </head>
   <body ng-app="infinitescroll" ng-cloak>
 
-    <div ng-controller="AppCtrl" layout="column" style="height:600px" ng-cloak>
+    <div ng-controller="AppCtrl as ctrl" layout="column" style="height:600px" ng-cloak>
 
       <md-toolbar md-scroll-shrink ng-if="true" ng-controller="TitleController">
         <div class="md-toolbar-tools">
@@ -26,26 +26,24 @@
       <md-content flex>
 
         <md-list>
-
-          <md-list-item class="md-3-line" ng-repeat="item in todos">
-
+          <md-virtual-repeat-container style="height:100%;">
+          <md-list-item class="md-3-line" flex md-virtual-repeat="item in ctrl.infiniteItems" md-on-demand>
             <div class="md-list-item-text">
-              <h3>{{item.what}}</h3>
-              <h4>{{item.who}}</h4>
+              <h3>{{item.name}}</h3>
+              <h4>{{item.department}}</h4>
 
               <p>
-                {{item.notes}}
+                {{item.price}}
               </p>
             </div>
             <md-divider inset></md-divider>
           </md-list-item>
-
+          </md-virtual-repeat-container>
         </md-list>
 
       </md-content>
     </div>
 
-    <script src="jquery/dist/jquery.min.js"></script>
     <!-- Angular Material requires Angular.js Libraries -->
     <script src="angular/angular.min.js"></script>
     <script src="angular-animate/angular-animate.min.js"></script>
