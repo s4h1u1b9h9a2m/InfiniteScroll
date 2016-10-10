@@ -6,5 +6,10 @@ To Install -
 
 To Run -
 1. Run "nodmeon start"
+2. Open "http://localhost:3001/ at your browser.
 
 Heroku Link: https://secure-ocean-72043.herokuapp.com/
+
+Technologies Used:
+1. NodeJS
+2. AngularJS
