@@ -19,6 +19,21 @@
         <div class="md-toolbar-tools">
           <h3>
             <span>{{title}}</span>
+            <div>
+
+              <form ng-submit="submit()">
+                  <div
+                      vc-recaptcha
+                      theme="'light'"
+                      key="model.key"
+                      on-create="setWidgetId(widgetId)"
+                      on-success="setResponse(response)"
+                      on-expire="cbExpiration()"
+                  ></div>
+                  <button class="btn" type="submit">Submit</button>
+              </form>
+
+            </div>
           </h3>
         </div>
       </md-toolbar>
@@ -51,6 +66,12 @@
     <script src="angular-animate/angular-animate.min.js"></script>
     <script src="angular-aria/angular-aria.min.js"></script>
     <script src="angular-messages/angular-messages.min.js"></script>
+
+    <!-- Include the JS ReCaptcha API -->
+    <script src="//www.google.com/recaptcha/api.js?render=explicit&onload=vcRecaptchaApiLoaded" async defer></script>
+
+    <!-- Include the ngReCaptcha directive -->
+    <script src="angular-recaptcha/release/angular-recaptcha.min.js"></script>
 
     <!-- Angular Material Library -->
     <script src="angular-material/angular-material.min.js"></script>
