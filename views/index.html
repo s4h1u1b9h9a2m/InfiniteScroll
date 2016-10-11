@@ -19,21 +19,6 @@
         <div class="md-toolbar-tools">
           <h3>
             <span>{{title}}</span>
-            <div>
-
-              <form ng-submit="submit()">
-                  <div
-                      vc-recaptcha
-                      theme="'light'"
-                      key="model.key"
-                      on-create="setWidgetId(widgetId)"
-                      on-success="setResponse(response)"
-                      on-expire="cbExpiration()"
-                  ></div>
-                  <button class="btn" type="submit">Submit</button>
-              </form>
-
-            </div>
           </h3>
         </div>
       </md-toolbar>
