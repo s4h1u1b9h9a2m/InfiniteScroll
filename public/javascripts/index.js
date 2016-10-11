@@ -5,24 +5,7 @@ angular.module('infinitescroll', ['ngMaterial', 'vcRecaptcha'])
 })
 .controller('AppCtrl', function($scope, $http, vcRecaptchaService, $mdDialog) {
 
-  var start = false;
-
   /* Dialog for Recaptcha */
-
-  // $scope.openDialog = function() {
-  //   $mdDialog.show(
-  //     $mdDialog.alert()
-  //       .clickOutsideToClose(false)
-  //       .title('Opening from the left')
-  //       .htmlContent('<h1>Closing</h1> to the right!')
-  //       .ariaLabel('Left to right demo')
-  //       .ok('Nice!')
-  //       // You can specify either sting with query selector
-  //       .openFrom('#left')
-  //       // or an element
-  //       .closeTo(angular.element(document.querySelector('#right')))
-  //   );
-  // };
 
   $scope.blockViewCaptcha = function(ev) {
     $mdDialog.show({
@@ -50,11 +33,6 @@ angular.module('infinitescroll', ['ngMaterial', 'vcRecaptcha'])
       targetEvent: ev,
       clickOutsideToClose:false
     })
-        .then(function(submit) {
-          $scope.status = 'You said the information was "' + answer + '".';
-        }, function() {
-          $scope.status = 'You cancelled the dialog.';
-        });
   };
 
   function DialogController($scope, $mdDialog) {
@@ -62,6 +40,7 @@ angular.module('infinitescroll', ['ngMaterial', 'vcRecaptcha'])
     console.log("this is your app's controller");
     $scope.response = null;
     $scope.widgetId = null;
+    $scope.valid = false;
     $scope.model = {
         key: '6Leg5QgUAAAAAHqlmVPXVL9PP7njR6EPwUsOU16Z'
     };
@@ -79,7 +58,7 @@ angular.module('infinitescroll', ['ngMaterial', 'vcRecaptcha'])
         $scope.response = null;
      };
     $scope.submit = function () {
-        var valid;
+
         /**
          * SERVER SIDE VALIDATION
          *
@@ -87,39 +66,31 @@ angular.module('infinitescroll', ['ngMaterial', 'vcRecaptcha'])
          * Send the reCaptcha response to the server and use some of the server side APIs to validate it
          * See https://developers.google.com/recaptcha/docs/verify
          */
-        console.log('sending the captcha response to the server', $scope.response);
-        if (valid) {
-            console.log('Success');
-            $mdDialog.hide();
-        } else {
-            console.log('Failed validation');
-            // In case of a failed validation you need to reload the captcha
-            // because each response can be checked just once
-            vcRecaptchaService.reload($scope.widgetId);
-        }
-    };
 
+         $http.post("/reCaptchaCheck", {"g-recaptcha-response": $scope.response}).then(angular.bind(this, function (obj) {
+             $scope.valid = obj.data.responseCode == 0? true: false;
+             console.log('Valid', $scope.valid);
+             $scope.checkServerResponse();
+         }));
+
+        //console.log('sending the captcha response to the server', $scope.response);
+
+    };
+    $scope.checkServerResponse = function(){
+      if ($scope.valid) {
+          console.log('Success');
+          $mdDialog.hide();
+      } else {
+          console.log('Failed validation');
+          // In case of a failed validation you need to reload the captcha
+          // because each response can be checked just once
+          vcRecaptchaService.reload($scope.widgetId);
+      }
+    }
 
   }
 
-  //
-  // <form ng-submit="submit()">
-  //     <div
-  //         vc-recaptcha
-  //         theme="'light'"
-  //         key="model.key"
-  //         on-create="setWidgetId(widgetId)"
-  //         on-success="setResponse(response)"
-  //         on-expire="cbExpiration()"
-  //     ></div>
-  //     <button class="btn" type="submit">Submit</button>
-  // </form>
-
   $scope.blockViewCaptcha();
-
-  /* Recaptcha */
-
-
 
   /* Infinite Scroll */
 
@@ -143,7 +114,7 @@ angular.module('infinitescroll', ['ngMaterial', 'vcRecaptcha'])
     },
 
     fetchMoreItems_: function (index) {
-        if (start && this.toLoad_ < index) {
+        if (this.toLoad_ < index) {
             this.toLoad_ += 10;
 
             $http.get("/products").then(angular.bind(this, function (obj) {
